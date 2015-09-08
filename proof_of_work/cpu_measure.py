@@ -30,12 +30,12 @@ def main(argv):
 
 	print "Beginning CPU Hash Test with Python. Interval set to %s" % interval
 
-	payloadHash = hashlib.sha512(payload).digest()
+	payloadHash = hashlib.sha256(payload).digest()
 
 	start = time.time()
 	while start + interval > time.time():
 	        nonce += 1
-        	guess, = unpack('>Q',hashlib.sha512(hashlib.sha512(pack('>Q',nonce) + payloadHash).digest()).digest()[0:8])
+        	guess, = unpack('>Q',hashlib.sha256(hashlib.sha256(pack('>Q',nonce) + payloadHash).digest()).digest()[0:8])
 
 	hashRate = nonce / interval 
 
