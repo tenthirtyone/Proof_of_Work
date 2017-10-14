@@ -19,7 +19,7 @@ payloadHash = hashlib.sha256(payload.encode('utf-8')).digest()
 start = time.time()
 while guess > target:
 	nonce += 1
-	guess, = unpack('>Q',hashlib.sha256(hashlib.sha256(pack('>Q',nonce) + payloadHash.encode('utf-8').digest()).digest()[0:8])
+	guess, = unpack('>Q',hashlib.sha256(hashlib.sha256(pack('>Q',nonce) + payloadHash.encode('utf-8')).digest()).digest()[0:8])
 	print(guess);
 end = time.time()
 
