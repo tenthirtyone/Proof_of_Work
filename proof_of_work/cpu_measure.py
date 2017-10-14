@@ -7,7 +7,7 @@ import hashlib
 from struct import unpack, pack
 
 def usage():
-	print "usage: cpu_measure -i <interval>"
+	print ("usage: cpu_measure -i <interval>")
 	sys.exit(2)
 
 def main(argv):
@@ -20,7 +20,7 @@ def main(argv):
 	try:
 		opts, args = getopt.getopt(argv,"hi:",["help", "interval="])
 	except getopt.GetoptError:
-		print 'cpu_measure.py -i <interval>'
+		print ('cpu_measure.py -i <interval>')
 		sys.exit(2)
 	for opt, arg in opts:
 		if opt in ("-i", "--interval"):
@@ -28,20 +28,20 @@ def main(argv):
 		elif opt in ("-h", "--help"):
 			usage()
 
-	print "Beginning CPU Hash Test with Python. Interval set to %s" % interval
+	print ("Beginning CPU Hash Test with Python. Interval set to %s" % interval)
 
-	payloadHash = hashlib.sha256(payload).digest()
+	payloadHash = hashlib.sha256(payload.encode('utf-8')).digest()
 
 	start = time.time()
 	while start + interval > time.time():
 	        nonce += 1
-        	guess, = unpack('>Q',hashlib.sha256(hashlib.sha256(pack('>Q',nonce) + payloadHash).digest()).digest()[0:8])
+        	guess, = unpack('>Q',hashlib.sha256(hashlib.sha256(pack('>Q',nonce) + payloadHash.encode('utf-8')).digest()).digest()[0:8])
 
 	hashRate = nonce / interval 
 
-	print "Total Hashes: %s" % nonce
-	print "Run Time: %s" % interval
-	print "Hash Rate: %s" % hashRate
+	print ("Total Hashes: %s" % nonce)
+	print ("Run Time: %s" % interval)
+	print ("Hash Rate: %s" % hashRate)
 
 if __name__ == "__main__":
    main(sys.argv[1:])
