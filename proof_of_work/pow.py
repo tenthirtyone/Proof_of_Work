@@ -13,13 +13,14 @@ payload = timestamp + message
 throttle = 100000000
 target = 2**64 / throttle
 
-payloadHash = hashlib.sha256(payload).digest()
+#encoding for windows
+payloadHash = hashlib.sha256(payload.encode('utf-8')).digest() 
 
 start = time.time()
 while guess > target:
 	nonce += 1
-	guess, = unpack('>Q',hashlib.sha256(hashlib.sha256(pack('>Q',nonce) + payloadHash).digest()).digest()[0:8])
-	print(guess);
+	guess, = unpack('>Q',hashlib.sha256(hashlib.sha256(pack('>Q',nonce) + payloadHash.encode('utf-8')).digest()).digest()[0:8])
+	print(guess)
 end = time.time()
 
-print "%s:%s:%s:%s:%s:%s:%s" % (timestamp, message, nonce, guess, payload, target, end-start)
+print ("%s:%s:%s:%s:%s:%s:%s" % (timestamp, message, nonce, guess, payload, target, end-start))
